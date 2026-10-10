@@ -30,3 +30,13 @@ Append new checkpoints; preserve previous entries. Use [CHECKPOINT_TEMPLATE](CHE
 - Blockers: none observed during preparation.
 - Exact next implementation action: complete J001 environment/specification reconciliation, then select J002.
 - Transfer evidence: this entry precedes the initial commit; inspect Git history and remote refs for actual publication evidence.
+
+## S002 Root layout correction on 2026-10-10
+
+- Task: user-requested relocation of handoff contents to repository root.
+- Starting revision: 03ad91eb77e907dea39fc27dd8910208395fbfdc, main; clean working tree.
+- Changes: moved all 41 handoff files to root, replacing the two extra entry points with the original AGENTS.md and README.md; updated continuity notes.
+- Verification: byte comparison after line-ending normalization against prior commit passed for all 41 files before note updates.
+- Not run: application tests; no application exists. J001 remains todo; no product decisions or learning assessment changed.
+- Uncommitted state: relocation and continuity notes awaiting commit/push. Recovery: inspect Git status and origin/main; do not force-push.
+- Blockers: none. Exact next implementation action: complete J001 environment/specification reconciliation.

@@ -9,6 +9,7 @@ Updated: 2026-10-10. Phase: documentation handoff complete; implementation not s
 - No application code, executable runtime schemas, app tests, provider integration, cloud resources or deployment has been created by this handoff.
 - No model benchmarks, live latency, actual cloud cost or demonstrated learning results exist.
 - Repository publication prepared on 2026-10-10 for `https://github.com/VezalisPetros/Jarvis`, branch `main`. Verify actual commit and synchronization through Git; do not infer them from this note.
+- Layout: all original handoff contents now live at repository root; the two extra root entry points were replaced with the original handoff files.
 - Local inventory: Windows, Git 2.55.0.windows.5, Python 3.10.11; 41 original handoff files. J001 remains todo pending its full specification/environment reconciliation.
 
 ## Work selection

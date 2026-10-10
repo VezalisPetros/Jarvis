@@ -84,6 +84,13 @@
           "result": "pass",
           "scope": "Publication preparation only; J001 remains todo. Windows; Git 2.55.0.windows.5; Python 3.10.11; 41 original handoff files; no existing local Git repository; remote advertised no refs.",
           "path": "project/SESSION_LOG.md"
+        },
+        {
+          "type": "repository_layout",
+          "timestamp": "2026-10-10",
+          "result": "pass",
+          "scope": "All 41 handoff files moved to root; normalized byte comparison against prior commit passed before checkpoint updates. J001 remains todo.",
+          "path": "project/SESSION_LOG.md"
         }
       ],
       "learning_objective": "Distinguish repository evidence from recorded intent",
