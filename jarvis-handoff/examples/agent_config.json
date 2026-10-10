@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "agent_id": "agent_grounded_example",
+  "config_version": 1,
+  "role": "Guest question drafter",
+  "objective": "Prepare an internal answer supported by the selected policy.",
+  "knowledge_refs": [
+    {
+      "source_id": "src_demo_policy",
+      "version": 1
+    }
+  ],
+  "tool_ids": [
+    "knowledge.search",
+    "draft.compose"
+  ],
+  "output_contract": "grounded_answer.v1",
+  "limits": {
+    "max_steps": 8,
+    "max_tool_calls": 10,
+    "timeout_seconds": 120,
+    "max_output_tokens": 1200
+  },
+  "escalation": "needs_information",
+  "provenance": {
+    "planning_run_id": "run_example_only",
+    "prompt_version": "illustration-v1",
+    "model_identifier": null,
+    "generated_at": null
+  }
+}

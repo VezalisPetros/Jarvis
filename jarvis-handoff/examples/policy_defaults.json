@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "status": "proposed_defaults_not_user_agreed_limits",
+  "max_agents_per_run": 3,
+  "max_active_runs_per_workspace": 1,
+  "max_steps_per_agent": 8,
+  "max_tool_calls_per_agent": 10,
+  "max_total_tool_calls_per_run": 30,
+  "max_plan_repair_attempts": 2,
+  "max_transient_retries": 2,
+  "tool_timeout_seconds": 30,
+  "agent_timeout_seconds": 120,
+  "run_timeout_seconds": 300,
+  "max_output_tokens_per_model_call": 1200,
+  "knowledge_result_limit": 5,
+  "max_upload_bytes": 10485760,
+  "max_active_sources_per_workspace": 20,
+  "paid_calls_enabled": false,
+  "run_budget": {
+    "currency": null,
+    "amount": null
+  },
+  "monthly_infrastructure_budget": {
+    "currency": null,
+    "amount": null
+  },
+  "web_research_enabled": false,
+  "raw_audio_retention_enabled": false,
+  "technical_log_retention_days": 30,
+  "active_source_deletion_target_hours": 24,
+  "note": "Unknown financial limits prohibit paid execution; numeric ceilings are proposed engineering defaults, not benchmark results or prices."
+}

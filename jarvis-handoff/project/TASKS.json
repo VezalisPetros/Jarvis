@@ -1,0 +1,1262 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-10-10",
+  "status_values": [
+    "todo",
+    "in_progress",
+    "blocked",
+    "done"
+  ],
+  "active_task_id": null,
+  "next_task_id": "J001",
+  "task_rule": "At most one implementation task in_progress; done requires all acceptance criteria and real evidence. Dependencies must be done before starting. Documentation task J000 does not imply implementation.",
+  "tasks": [
+    {
+      "id": "J000",
+      "title": "Documentation handoff",
+      "status": "done",
+      "goal": "Prepare the agreed project for stepwise implementation",
+      "deliverables": [
+        "Markdown specifications",
+        "Repository memory",
+        "Synthetic examples",
+        "Validated ZIP"
+      ],
+      "dependencies": [],
+      "related_documents": [
+        "README.md",
+        "project/DECISIONS.md"
+      ],
+      "acceptance_criteria": [
+        "Required documents exist",
+        "No implementation is claimed",
+        "Links and task graph validate"
+      ],
+      "verification_plan": [
+        "Run package consistency validation and ZIP integrity checks"
+      ],
+      "verification_evidence": [
+        {
+          "type": "package_validation",
+          "result": "pass",
+          "path": "project/evidence/PACKAGE_VALIDATION.md",
+          "scope": "Documentation package only; no application checks"
+        }
+      ],
+      "learning_objective": "Understand the handoff structure",
+      "credentials_required": "None",
+      "cost_requirements": "No paid service required",
+      "milestone": "M0",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Run package consistency validation and ZIP integrity checks"
+    },
+    {
+      "id": "J001",
+      "title": "Inspect repository and local prerequisites",
+      "status": "todo",
+      "goal": "Establish actual starting state before code",
+      "deliverables": [
+        "Environment/repository inventory",
+        "Reconciled STATE and next step"
+      ],
+      "dependencies": [
+        "J000"
+      ],
+      "related_documents": [
+        "AGENTS.md",
+        "project/STATE.md",
+        "docs/02_SYSTEM_ARCHITECTURE.md"
+      ],
+      "acceptance_criteria": [
+        "Existing files and unfinished changes inspected without overwrite",
+        "Python/Git availability and actual OS recorded",
+        "First local path needs no key or paid service"
+      ],
+      "verification_plan": [
+        "Inspect repository status and relevant files; record actual results",
+        "Check available local runtime; record missing prerequisites as blockers only when necessary"
+      ],
+      "verification_evidence": [
+        {
+          "type": "repository_inventory",
+          "timestamp": "2026-10-10",
+          "result": "pass",
+          "scope": "Publication preparation only; J001 remains todo. Windows; Git 2.55.0.windows.5; Python 3.10.11; 41 original handoff files; no existing local Git repository; remote advertised no refs.",
+          "path": "project/SESSION_LOG.md"
+        }
+      ],
+      "learning_objective": "Distinguish repository evidence from recorded intent",
+      "credentials_required": "None",
+      "cost_requirements": "No paid service required",
+      "milestone": "M0",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Inspect repository status and relevant files; record actual results"
+    },
+    {
+      "id": "J002",
+      "title": "Define local contracts and fixture tests",
+      "status": "todo",
+      "goal": "Create the smallest runnable development skeleton",
+      "deliverables": [
+        "Typed W1 input/output contracts",
+        "Deterministic fixture adapter interface",
+        "Local test command and dependency lock"
+      ],
+      "dependencies": [
+        "J001"
+      ],
+      "related_documents": [
+        "docs/12_DATA_API_CONTRACTS.md",
+        "examples/README.md"
+      ],
+      "acceptance_criteria": [
+        "Valid fixture parses; malformed required fields fail",
+        "No network/API credentials required",
+        "Setup and one test command documented"
+      ],
+      "verification_plan": [
+        "Run valid and invalid schema cases locally",
+        "Verify fake mode makes no external call"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "Structured outputs and adapter boundaries",
+      "credentials_required": "None",
+      "cost_requirements": "No paid service required",
+      "milestone": "M1",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Run valid and invalid schema cases locally"
+    },
+    {
+      "id": "J003",
+      "title": "Complete the first text workflow",
+      "status": "todo",
+      "goal": "Run W1 from input to grounded internal artifact",
+      "deliverables": [
+        "Local text entry point",
+        "Fixture-backed search/answer flow",
+        "Persisted answer or information gap"
+      ],
+      "dependencies": [
+        "J002"
+      ],
+      "related_documents": [
+        "docs/01_PRODUCT_PRD.md",
+        "docs/04_TOOL_REGISTRY.md",
+        "examples/eval_cases.jsonl"
+      ],
+      "acceptance_criteria": [
+        "Parking answer points to the exact fixture section",
+        "Unknown fact returns needs_information",
+        "Artifact saved and re-opened",
+        "Output labeled deterministic fixture mode"
+      ],
+      "verification_plan": [
+        "Run a supported question and inspect artifact/citation",
+        "Run an unsupported question and assert no invented answer",
+        "Rerun fixture tests without network"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "Workflow versus agent; complete vertical slice",
+      "credentials_required": "None",
+      "cost_requirements": "No paid service required",
+      "milestone": "M1",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Run a supported question and inspect artifact/citation"
+    },
+    {
+      "id": "J004",
+      "title": "Persist run state and local telemetry",
+      "status": "todo",
+      "goal": "Make execution inspectable after process exit",
+      "deliverables": [
+        "Run/step records in local store",
+        "Structured logs",
+        "Idempotent submission"
+      ],
+      "dependencies": [
+        "J003"
+      ],
+      "related_documents": [
+        "docs/07_ORCHESTRATION.md",
+        "docs/12_DATA_API_CONTRACTS.md"
+      ],
+      "acceptance_criteria": [
+        "Restart can read existing run/result",
+        "Repeated request ID returns same run",
+        "Changed payload with reused ID conflicts"
+      ],
+      "verification_plan": [
+        "Restart process and query prior run",
+        "Submit same request twice and inspect one logical run",
+        "Inspect redacted events and statuses"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "Durable state and idempotency",
+      "credentials_required": "None",
+      "cost_requirements": "No paid service required",
+      "milestone": "M1",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Restart process and query prior run"
+    },
+    {
+      "id": "J005",
+      "title": "Define model adapter and offline contract tests",
+      "status": "todo",
+      "goal": "Separate model I/O from domain logic without requiring live access",
+      "deliverables": [
+        "Model request/result interface",
+        "Deterministic fixture adapter",
+        "Malformed-output and unavailable-provider contract tests"
+      ],
+      "dependencies": [
+        "J004"
+      ],
+      "related_documents": [
+        "docs/02_SYSTEM_ARCHITECTURE.md",
+        "project/OPEN_QUESTIONS.md"
+      ],
+      "acceptance_criteria": [
+        "Fake mode works offline with no credentials",
+        "Adapter result contract includes usage and errors",
+        "No live-model capability is claimed"
+      ],
+      "verification_plan": [
+        "Run offline adapter contract tests for valid/malformed/unavailable outcomes",
+        "Verify no network or secret is required"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "Model I/O, structured outputs and uncertainty",
+      "credentials_required": "None",
+      "cost_requirements": "No paid service required",
+      "milestone": "M1",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Run offline adapter contract tests for valid/malformed/unavailable outcomes"
+    },
+    {
+      "id": "J006",
+      "title": "Enforce tool policy and bounded calls",
+      "status": "todo",
+      "goal": "Make the tool gateway the security boundary",
+      "deliverables": [
+        "Versioned registry",
+        "Scope/size/time/call-count enforcement",
+        "Usage reservation interface"
+      ],
+      "dependencies": [
+        "J004"
+      ],
+      "related_documents": [
+        "docs/04_TOOL_REGISTRY.md",
+        "docs/05_AUTONOMY_SECURITY.md",
+        "examples/policy_defaults.json"
+      ],
+      "acceptance_criteria": [
+        "Unknown tool denied before dispatch",
+        "Model cannot change trusted context",
+        "Call limit and paid-disabled policy enforced"
+      ],
+      "verification_plan": [
+        "Attempt unlisted tool and altered workspace",
+        "Exhaust call ceiling and verify no additional dispatch",
+        "Inject secret-like test marker and verify log redaction"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "Capability boundaries and deterministic enforcement",
+      "credentials_required": "None",
+      "cost_requirements": "No paid service required",
+      "milestone": "M1",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Attempt unlisted tool and altered workspace"
+    },
+    {
+      "id": "J007",
+      "title": "Build a bounded single-agent loop",
+      "status": "todo",
+      "goal": "Let one agent select validated tool actions",
+      "deliverables": [
+        "Plan-act-observe loop",
+        "Stop conditions",
+        "Attempt telemetry"
+      ],
+      "dependencies": [
+        "J005",
+        "J006"
+      ],
+      "related_documents": [
+        "docs/03_DYNAMIC_AGENTS.md",
+        "docs/04_TOOL_REGISTRY.md"
+      ],
+      "acceptance_criteria": [
+        "Agent can answer or ask for missing data",
+        "Loop stops at configured limit",
+        "Malformed tool selection handled without privilege escalation"
+      ],
+      "verification_plan": [
+        "Run scripted adapter with tool result and final answer",
+        "Run repeated-action adapter and verify termination"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "Agent loop versus fixed control flow",
+      "credentials_required": "None",
+      "cost_requirements": "No paid service required",
+      "milestone": "M2",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Run scripted adapter with tool result and final answer"
+    },
+    {
+      "id": "J008",
+      "title": "Generate and validate agent configurations",
+      "status": "todo",
+      "goal": "Create role/tool/source configuration per objective",
+      "deliverables": [
+        "Typed config schema",
+        "Configuration generator",
+        "Immutable config versions"
+      ],
+      "dependencies": [
+        "J007"
+      ],
+      "related_documents": [
+        "docs/03_DYNAMIC_AGENTS.md",
+        "examples/agent_config.json"
+      ],
+      "acceptance_criteria": [
+        "Different objectives can produce different valid configurations",
+        "Unknown tool/output contract rejected",
+        "Editing validated config creates new version"
+      ],
+      "verification_plan": [
+        "Validate accepted and rejected generated fixture configs",
+        "Verify attempted privilege expansion is rejected"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "Dynamic roles are validated data",
+      "credentials_required": "None",
+      "cost_requirements": "No paid service required",
+      "milestone": "M2",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Validate accepted and rejected generated fixture configs"
+    },
+    {
+      "id": "J009",
+      "title": "Move state to PostgreSQL and isolate workspaces",
+      "status": "todo",
+      "goal": "Prepare durable multi-workspace execution",
+      "deliverables": [
+        "Database migrations",
+        "Scoped application role and data access",
+        "Authentication design and local two-actor test harness"
+      ],
+      "dependencies": [
+        "J004",
+        "J006"
+      ],
+      "related_documents": [
+        "docs/02_SYSTEM_ARCHITECTURE.md",
+        "docs/05_AUTONOMY_SECURITY.md",
+        "docs/12_DATA_API_CONTRACTS.md"
+      ],
+      "acceptance_criteria": [
+        "W1 works on PostgreSQL with persisted IDs",
+        "Two-workspace read/write/retrieval isolation tests pass",
+        "Non-owner DB role used in isolation test",
+        "Authentication choice documented before cloud"
+      ],
+      "verification_plan": [
+        "Migrate disposable local fixture state and rerun W1",
+        "Attempt cross-workspace direct/worker access",
+        "Verify missing tenant context denies access"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "Database boundaries and tenant isolation",
+      "credentials_required": "Local PostgreSQL setup; no cloud credentials",
+      "cost_requirements": "Local resources only",
+      "milestone": "M2",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Migrate disposable local fixture state and rerun W1"
+    },
+    {
+      "id": "J010",
+      "title": "Validate dynamic team plans",
+      "status": "todo",
+      "goal": "Generate one-agent or bounded acyclic plans",
+      "deliverables": [
+        "Team plan schema and validator",
+        "Dependency and binding checks",
+        "Plan versions and repair limit"
+      ],
+      "dependencies": [
+        "J008",
+        "J009"
+      ],
+      "related_documents": [
+        "docs/03_DYNAMIC_AGENTS.md",
+        "examples/team_plan.json"
+      ],
+      "acceptance_criteria": [
+        "Simple request can choose one agent",
+        "Multi-step request can use a team",
+        "Cycles/dangling bindings/scopes rejected",
+        "Repair limit enforced"
+      ],
+      "verification_plan": [
+        "Run single/team valid fixtures",
+        "Inject cycle, wrong binding and excess agents"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "Graph planning and constrained delegation",
+      "credentials_required": "None",
+      "cost_requirements": "No paid service required",
+      "milestone": "M2",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Run single/team valid fixtures"
+    },
+    {
+      "id": "J011",
+      "title": "Complete repeated-question analysis",
+      "status": "todo",
+      "goal": "Execute W2 with typed handoffs and a report",
+      "deliverables": [
+        "Grouping artifact",
+        "Deterministic counts",
+        "Grounded draft library and gap report"
+      ],
+      "dependencies": [
+        "J010"
+      ],
+      "related_documents": [
+        "docs/01_PRODUCT_PRD.md",
+        "docs/04_TOOL_REGISTRY.md",
+        "examples/questions.jsonl"
+      ],
+      "acceptance_criteria": [
+        "All included records accounted for once",
+        "Counts match fixture denominator",
+        "Drafts cite sources or show missing information",
+        "No external communication occurs"
+      ],
+      "verification_plan": [
+        "Verify counts against independently counted fixtures",
+        "Inspect handoff types and final report sections"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "Separate model judgment from deterministic computation",
+      "credentials_required": "None",
+      "cost_requirements": "No paid service required",
+      "milestone": "M2",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Verify counts against independently counted fixtures"
+    },
+    {
+      "id": "J012",
+      "title": "Run durable background steps",
+      "status": "todo",
+      "goal": "Decouple execution from request/browser lifetime",
+      "deliverables": [
+        "Worker lease/attempt records",
+        "Checkpoints",
+        "Restart continuation"
+      ],
+      "dependencies": [
+        "J011"
+      ],
+      "related_documents": [
+        "docs/07_ORCHESTRATION.md"
+      ],
+      "acceptance_criteria": [
+        "Run survives API disconnect",
+        "Worker restart resumes eligible unfinished steps",
+        "Stale lease cannot overwrite newer result"
+      ],
+      "verification_plan": [
+        "Kill a test worker at a checkpoint and restart",
+        "Simulate expired lease and reject stale result"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "Durable orchestration and fencing",
+      "credentials_required": "None",
+      "cost_requirements": "No paid service required",
+      "milestone": "M3",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Kill a test worker at a checkpoint and restart"
+    },
+    {
+      "id": "J013",
+      "title": "Implement version-bound approvals",
+      "status": "todo",
+      "goal": "Pause material changes for exact owner authorization",
+      "deliverables": [
+        "Approval records and decision API",
+        "Payload binding and expiry",
+        "Resume after valid grant"
+      ],
+      "dependencies": [
+        "J012"
+      ],
+      "related_documents": [
+        "docs/05_AUTONOMY_SECURITY.md",
+        "examples/approval.json"
+      ],
+      "acceptance_criteria": [
+        "Grant resumes matching plan only",
+        "Deny/expiry keeps work stopped",
+        "Changed plan invalidates approval"
+      ],
+      "verification_plan": [
+        "Grant exact payload then try replay against new version",
+        "Deny and expire approvals and assert zero dispatch"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "Human approval as backend state",
+      "credentials_required": "None",
+      "cost_requirements": "No paid service required",
+      "milestone": "M3",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Grant exact payload then try replay against new version"
+    },
+    {
+      "id": "J014",
+      "title": "Handle retries and partial failure",
+      "status": "todo",
+      "goal": "Recover transient problems without duplicate internal writes",
+      "deliverables": [
+        "Retry rules",
+        "Idempotency reconciliation",
+        "Partial-output classification",
+        "Concurrency-safe reservations"
+      ],
+      "dependencies": [
+        "J012",
+        "J013"
+      ],
+      "related_documents": [
+        "docs/07_ORCHESTRATION.md",
+        "docs/10_CLOUD_OPERATIONS.md"
+      ],
+      "acceptance_criteria": [
+        "Transient retry count bounded",
+        "Timeout after write reconciles existing artifact",
+        "Required failure produces partial/failed state correctly",
+        "Concurrent requests cannot exceed aggregate budget"
+      ],
+      "verification_plan": [
+        "Inject timeout before/after internal write",
+        "Fail a required and an optional step separately",
+        "Race two reservations against remaining budget"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "At-least-once attempts and uncertain outcomes",
+      "credentials_required": "None",
+      "cost_requirements": "No paid service required",
+      "milestone": "M3",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Inject timeout before/after internal write"
+    },
+    {
+      "id": "J015",
+      "title": "Add pause resume and cancellation",
+      "status": "todo",
+      "goal": "Control active runs at safe boundaries",
+      "deliverables": [
+        "Control endpoints",
+        "In-flight reconciliation",
+        "Global workspace pause"
+      ],
+      "dependencies": [
+        "J014"
+      ],
+      "related_documents": [
+        "docs/07_ORCHESTRATION.md"
+      ],
+      "acceptance_criteria": [
+        "Pause/cancel blocks new calls",
+        "In-flight output/cost remains visible",
+        "Resume revalidates source/policy versions"
+      ],
+      "verification_plan": [
+        "Cancel during active call and during retry backoff",
+        "Resume with stale source and inspect pause reason"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "Cancellation is not rollback",
+      "credentials_required": "None",
+      "cost_requirements": "No paid service required",
+      "milestone": "M3",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Cancel during active call and during retry backoff"
+    },
+    {
+      "id": "J016",
+      "title": "Verify revocation and security invariants",
+      "status": "todo",
+      "goal": "Demonstrate enforcement under adversarial input",
+      "deliverables": [
+        "Abuse-case tests",
+        "Grant revocation",
+        "Sanitized denial evidence"
+      ],
+      "dependencies": [
+        "J009",
+        "J013",
+        "J015"
+      ],
+      "related_documents": [
+        "docs/05_AUTONOMY_SECURITY.md"
+      ],
+      "acceptance_criteria": [
+        "Revoked grant prevents next call",
+        "Malicious source does not execute instruction",
+        "Cross-tenant artifact/cache/worker access denied"
+      ],
+      "verification_plan": [
+        "Run prompt-injection, fake-approval and cross-scope cases",
+        "Revoke permission between two steps"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "Defense in depth and execution-time checks",
+      "credentials_required": "None",
+      "cost_requirements": "No paid service required",
+      "milestone": "M3",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Run prompt-injection, fake-approval and cross-scope cases"
+    },
+    {
+      "id": "J017",
+      "title": "Implement business facts and source ingestion",
+      "status": "todo",
+      "goal": "Turn documents and owner statements into versioned context",
+      "deliverables": [
+        "Source ingestion for agreed formats",
+        "Fact/hypothesis distinction",
+        "Owner correction flow"
+      ],
+      "dependencies": [
+        "J011",
+        "J016"
+      ],
+      "related_documents": [
+        "docs/06_KNOWLEDGE_MEMORY.md"
+      ],
+      "acceptance_criteria": [
+        "Unsupported scan reports unsupported content",
+        "Source locators survive retrieval",
+        "Inference stays hypothesis until confirmed"
+      ],
+      "verification_plan": [
+        "Ingest synthetic text and a small generated document sample",
+        "Correct one fact and verify new source/claim version"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "Provenance and epistemic state",
+      "credentials_required": "None",
+      "cost_requirements": "No paid service required",
+      "milestone": "M4",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Ingest synthetic text and a small generated document sample"
+    },
+    {
+      "id": "J018",
+      "title": "Propagate corrections and deletion",
+      "status": "todo",
+      "goal": "Keep memory and outputs honest after changes",
+      "deliverables": [
+        "Stale/withdrawn artifact handling",
+        "Source deletion propagation",
+        "Cache invalidation"
+      ],
+      "dependencies": [
+        "J017"
+      ],
+      "related_documents": [
+        "docs/06_KNOWLEDGE_MEMORY.md"
+      ],
+      "acceptance_criteria": [
+        "Deleted source immediately excluded from reads",
+        "Derived chunks and copied content removed/redacted",
+        "Affected active run pauses",
+        "Historical metadata does not disclose deleted content"
+      ],
+      "verification_plan": [
+        "Correct a source used by a completed run",
+        "Delete active source and check all retrieval/download paths"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "Derived data lifecycle",
+      "credentials_required": "None",
+      "cost_requirements": "No paid service required",
+      "milestone": "M4",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Correct a source used by a completed run"
+    },
+    {
+      "id": "J019",
+      "title": "Containerize the text service and worker",
+      "status": "todo",
+      "goal": "Package current behavior reproducibly",
+      "deliverables": [
+        "Docker build",
+        "Persistent local configuration",
+        "Health/readiness and graceful shutdown"
+      ],
+      "dependencies": [
+        "J018"
+      ],
+      "related_documents": [
+        "docs/10_CLOUD_OPERATIONS.md"
+      ],
+      "acceptance_criteria": [
+        "Fresh container runs W1/W2 with persistent database",
+        "Secrets not baked into image",
+        "Shutdown preserves/reconciles state"
+      ],
+      "verification_plan": [
+        "Build locally and run synthetic smoke cases",
+        "Restart container and verify persisted run"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "Images, processes and external state",
+      "credentials_required": "None",
+      "cost_requirements": "No paid service required",
+      "milestone": "M5",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Build locally and run synthetic smoke cases"
+    },
+    {
+      "id": "J020",
+      "title": "Verify first private cloud deployment",
+      "status": "todo",
+      "goal": "Deploy the existing text path and gather genuine cloud evidence",
+      "deliverables": [
+        "Chosen cloud resources",
+        "Authenticated private deployment",
+        "Storage/identity configuration",
+        "Smoke evidence and teardown notes"
+      ],
+      "dependencies": [
+        "J019"
+      ],
+      "related_documents": [
+        "docs/10_CLOUD_OPERATIONS.md",
+        "project/OPEN_QUESTIONS.md"
+      ],
+      "acceptance_criteria": [
+        "Q02/Q03/Q04 resolved for deployment",
+        "Dev identity unavailable remotely",
+        "Authenticated W1 works with durable state",
+        "Resource inventory and billing drivers recorded"
+      ],
+      "verification_plan": [
+        "Review concrete resource plan and authorized spend",
+        "Deploy and run scoped smoke case",
+        "Restart worker and inspect stored result",
+        "Verify unauthorized access denied"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "Compute, storage, identity and cloud cost",
+      "credentials_required": "Cloud account, selected region, authenticated owner setup",
+      "cost_requirements": "Potential cloud charges; explicit actual budget required",
+      "milestone": "M5",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Review concrete resource plan and authorized spend"
+    },
+    {
+      "id": "J021",
+      "title": "Build text dashboard and run view",
+      "status": "todo",
+      "goal": "Expose durable run state to the owner",
+      "deliverables": [
+        "React shell",
+        "Conversation and run list/detail",
+        "Reconnect behavior"
+      ],
+      "dependencies": [
+        "J019"
+      ],
+      "related_documents": [
+        "docs/08_VOICE_DASHBOARD.md"
+      ],
+      "acceptance_criteria": [
+        "Refresh resumes same run view",
+        "Statuses come from backend",
+        "Duplicate submission prevented"
+      ],
+      "verification_plan": [
+        "Create run, refresh, inspect artifact and terminal status",
+        "Switch workspace and verify no stale cached content"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "Frontend projections of backend state",
+      "credentials_required": "None",
+      "cost_requirements": "No paid service required",
+      "milestone": "M6",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Create run, refresh, inspect artifact and terminal status"
+    },
+    {
+      "id": "J022",
+      "title": "Add oversight approvals and knowledge screens",
+      "status": "todo",
+      "goal": "Make controls and evidence usable",
+      "deliverables": [
+        "Approval cards",
+        "Generated team view",
+        "Source/result/feedback controls"
+      ],
+      "dependencies": [
+        "J021",
+        "J013",
+        "J018"
+      ],
+      "related_documents": [
+        "docs/08_VOICE_DASHBOARD.md"
+      ],
+      "acceptance_criteria": [
+        "Stale approval card cannot execute",
+        "Source citations open correct authorized version",
+        "Feedback and correction actions persist"
+      ],
+      "verification_plan": [
+        "Exercise approve/deny/stale cases in UI",
+        "Inspect partial results and delete a synthetic source"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "Human-readable control and evidence",
+      "credentials_required": "None",
+      "cost_requirements": "No paid service required",
+      "milestone": "M6",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Exercise approve/deny/stale cases in UI"
+    },
+    {
+      "id": "J023",
+      "title": "Add correlated tracing and usage views",
+      "status": "todo",
+      "goal": "Follow a run across planner agents and tools",
+      "deliverables": [
+        "Structured spans/events",
+        "Usage view",
+        "Sanitized error drill"
+      ],
+      "dependencies": [
+        "J014",
+        "J022"
+      ],
+      "related_documents": [
+        "docs/10_CLOUD_OPERATIONS.md"
+      ],
+      "acceptance_criteria": [
+        "Every attempt correlates to run/step/config",
+        "Planner and retry usage included",
+        "Unknown cost displayed honestly"
+      ],
+      "verification_plan": [
+        "Follow one failed and one successful run through traces",
+        "Inspect redaction and aggregate usage"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "Observability versus raw logging",
+      "credentials_required": "None",
+      "cost_requirements": "No paid service required",
+      "milestone": "M6",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Follow one failed and one successful run through traces"
+    },
+    {
+      "id": "J024",
+      "title": "Automate tested cloud releases",
+      "status": "todo",
+      "goal": "Create reproducible build and deployment pipeline",
+      "deliverables": [
+        "CI test checks",
+        "Image digest/revision recording",
+        "Authenticated post-deploy smoke"
+      ],
+      "dependencies": [
+        "J020",
+        "J023"
+      ],
+      "related_documents": [
+        "docs/10_CLOUD_OPERATIONS.md"
+      ],
+      "acceptance_criteria": [
+        "Deterministic CI has no production credentials",
+        "Release references exact built image",
+        "Failure prevents promotion"
+      ],
+      "verification_plan": [
+        "Run CI on valid and failing test change",
+        "Deploy one authorized revision and retain evidence"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "CI/CD and short-lived deployment credentials",
+      "credentials_required": "Git hosting and cloud CI identity",
+      "cost_requirements": "Cloud/build usage within approved limits",
+      "milestone": "M7",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Run CI on valid and failing test change"
+    },
+    {
+      "id": "J025",
+      "title": "Describe infrastructure as code",
+      "status": "todo",
+      "goal": "Recreate the chosen deployment configuration",
+      "deliverables": [
+        "Selected Bicep or Terraform definitions",
+        "Safe plan/review workflow",
+        "Environment parameter documentation"
+      ],
+      "dependencies": [
+        "J024"
+      ],
+      "related_documents": [
+        "docs/10_CLOUD_OPERATIONS.md",
+        "project/adr/0003_STACK_AND_CLOUD.md"
+      ],
+      "acceptance_criteria": [
+        "IaC tool selection recorded",
+        "No secrets in templates/state committed",
+        "Disposable environment can be planned consistently"
+      ],
+      "verification_plan": [
+        "Inspect plan against current resource inventory",
+        "If authorized, provision disposable equivalent and smoke test"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "Declarative infrastructure and state",
+      "credentials_required": "Cloud/IaC access",
+      "cost_requirements": "Provision only within authorized budget",
+      "milestone": "M7",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Inspect plan against current resource inventory"
+    },
+    {
+      "id": "J026",
+      "title": "Rehearse rollback and data recovery",
+      "status": "todo",
+      "goal": "Prove recovery with measured evidence",
+      "deliverables": [
+        "Restore/rollback runbook",
+        "Isolated rehearsal",
+        "Actual recovery observations"
+      ],
+      "dependencies": [
+        "J025",
+        "J018"
+      ],
+      "related_documents": [
+        "docs/10_CLOUD_OPERATIONS.md"
+      ],
+      "acceptance_criteria": [
+        "Backup/retention policy recorded",
+        "Restored system retains isolation/deletion decisions",
+        "Rollback schema compatibility checked",
+        "Actual times recorded without invented SLA"
+      ],
+      "verification_plan": [
+        "Restore synthetic data into isolated environment",
+        "Replay deletion tombstones and run smoke checks",
+        "Exercise compatible release rollback"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "Recovery objectives and operational tradeoffs",
+      "credentials_required": "Cloud backup/restore permissions",
+      "cost_requirements": "Temporary resources need approved budget",
+      "milestone": "M7",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Restore synthetic data into isolated environment"
+    },
+    {
+      "id": "J027",
+      "title": "Add opt-in executive briefing",
+      "status": "todo",
+      "goal": "Run limited proactive review on a schedule",
+      "deliverables": [
+        "Versioned schedule",
+        "Period deduplication",
+        "Briefing with proposals"
+      ],
+      "dependencies": [
+        "J016",
+        "J023"
+      ],
+      "related_documents": [
+        "docs/07_ORCHESTRATION.md"
+      ],
+      "acceptance_criteria": [
+        "No schedule active by default",
+        "Duplicate trigger creates one briefing",
+        "Briefing cannot activate ungranted work",
+        "Timezone/DST behavior documented"
+      ],
+      "verification_plan": [
+        "Trigger same synthetic period twice",
+        "Disable schedule and assert no new dispatch",
+        "Test missed-period and timezone transition"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "Scheduling, idempotency and bounded initiative",
+      "credentials_required": "None",
+      "cost_requirements": "No paid service required",
+      "milestone": "M6",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Trigger same synthetic period twice"
+    },
+    {
+      "id": "J028",
+      "title": "Implement voice adapter and text fallback",
+      "status": "todo",
+      "goal": "Add voice to the existing conversation engine",
+      "deliverables": [
+        "Speech adapter interface",
+        "Transcript and TTS integration",
+        "Permission/error fallback"
+      ],
+      "dependencies": [
+        "J022"
+      ],
+      "related_documents": [
+        "docs/08_VOICE_DASHBOARD.md",
+        "project/OPEN_QUESTIONS.md"
+      ],
+      "acceptance_criteria": [
+        "Text engine and conversation IDs reused",
+        "Denied microphone falls back to text",
+        "Provider/config recorded for live voice"
+      ],
+      "verification_plan": [
+        "Test mocked audio events offline",
+        "With provider selected, record one synthetic live voice exchange"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "Speech pipeline and shared state",
+      "credentials_required": "Provider credentials if required by chosen speech service",
+      "cost_requirements": "Live voice only under resolved budget",
+      "milestone": "M8",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Test mocked audio events offline"
+    },
+    {
+      "id": "J029",
+      "title": "Verify interruptions and voice continuity",
+      "status": "todo",
+      "goal": "Make voice feel responsive without corrupting runs",
+      "deliverables": [
+        "Barge-in handling",
+        "Reconnect recovery",
+        "Explicit task cancellation mapping"
+      ],
+      "dependencies": [
+        "J028",
+        "J015"
+      ],
+      "related_documents": [
+        "docs/08_VOICE_DASHBOARD.md"
+      ],
+      "acceptance_criteria": [
+        "Speech interruption stops audio without cancelling work",
+        "Explicit task cancellation follows backend state",
+        "Voice/text switching does not duplicate actions",
+        "Latency measured with defined boundaries"
+      ],
+      "verification_plan": [
+        "Interrupt playback and inspect active run",
+        "Disconnect/reconnect and switch to text",
+        "Record live timing protocol/results if available"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "Audio lifecycle versus business task lifecycle",
+      "credentials_required": "Chosen speech integration for live verification",
+      "cost_requirements": "Authorized voice usage only",
+      "milestone": "M8",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Interrupt playback and inspect active run"
+    },
+    {
+      "id": "J030",
+      "title": "Run comparative agent evaluation",
+      "status": "todo",
+      "goal": "Evaluate fixed single-agent and dynamic execution fairly",
+      "deliverables": [
+        "Versioned held-out dataset",
+        "Three-mode results",
+        "Human rubric and failure analysis"
+      ],
+      "dependencies": [
+        "J011",
+        "J016",
+        "J018",
+        "J023",
+        "J029",
+        "J033"
+      ],
+      "related_documents": [
+        "docs/09_EVALUATION_TESTING.md"
+      ],
+      "acceptance_criteria": [
+        "Common tasks/evidence/budgets documented",
+        "Planning/repair cost included",
+        "Real model evaluation distinguished from fixtures",
+        "Failures and actual metrics preserved"
+      ],
+      "verification_plan": [
+        "Freeze dataset and protocol before final runs",
+        "Execute all three variants with selected real model",
+        "Review outputs with rubric and report distributions"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "Experimental control and honest claims",
+      "credentials_required": "Real model/provider and any required credentials",
+      "cost_requirements": "Explicit capped evaluation budget",
+      "milestone": "M9",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Freeze dataset and protocol before final runs"
+    },
+    {
+      "id": "J031",
+      "title": "Verify final cloud portfolio demonstration",
+      "status": "todo",
+      "goal": "Integrate demonstrated features and evidence",
+      "deliverables": [
+        "Private voice/dashboard demo",
+        "Architecture and deployment evidence",
+        "README/demo guide with measured claims"
+      ],
+      "dependencies": [
+        "J020",
+        "J024",
+        "J025",
+        "J026",
+        "J027",
+        "J029",
+        "J030"
+      ],
+      "related_documents": [
+        "docs/01_PRODUCT_PRD.md",
+        "docs/10_CLOUD_OPERATIONS.md"
+      ],
+      "acceptance_criteria": [
+        "Final agreed features demonstrated in deployed environment",
+        "No failed required control tests hidden",
+        "Known limitations and costs included",
+        "CV statements correspond to actual implementation"
+      ],
+      "verification_plan": [
+        "Run end-to-end synthetic scenario on deployed build",
+        "Verify restart, permissions and voice fallback",
+        "Audit portfolio claims against evidence"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "Explain the complete AI system and tradeoffs",
+      "credentials_required": "Existing authorized cloud/model/voice access",
+      "cost_requirements": "Run within recorded budgets",
+      "milestone": "M9",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Run end-to-end synthetic scenario on deployed build"
+    },
+    {
+      "id": "J032",
+      "title": "Optional controlled web research",
+      "status": "todo",
+      "goal": "Add the already discussed optional research tool only if still needed",
+      "deliverables": [
+        "Egress-checked web adapter",
+        "Source citations and timeout behavior"
+      ],
+      "dependencies": [
+        "J031"
+      ],
+      "related_documents": [
+        "docs/04_TOOL_REGISTRY.md",
+        "project/OPEN_QUESTIONS.md"
+      ],
+      "acceptance_criteria": [
+        "Explicitly enabled only after Q09 decision",
+        "Private queries/unsafe destinations blocked",
+        "Search results cannot alter policy"
+      ],
+      "verification_plan": [
+        "Test private-address/redirect blocking and query restrictions",
+        "Run bounded public research case if authorized"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "Untrusted external data and egress",
+      "credentials_required": "Search/provider access if required",
+      "cost_requirements": "Optional metered cost must be approved",
+      "milestone": "Later",
+      "optional": true,
+      "blockers": [],
+      "next_action": "Test private-address/redirect blocking and query restrictions"
+    },
+    {
+      "id": "J033",
+      "title": "Integrate and verify the selected live model",
+      "status": "todo",
+      "goal": "Replace fixture-only reasoning with an evidenced real model adapter",
+      "deliverables": [
+        "Selected provider implementation",
+        "Recorded compatible SDK/model configuration",
+        "One bounded live run and usage evidence"
+      ],
+      "dependencies": [
+        "J005",
+        "J006"
+      ],
+      "related_documents": [
+        "docs/02_SYSTEM_ARCHITECTURE.md",
+        "docs/10_CLOUD_OPERATIONS.md",
+        "project/OPEN_QUESTIONS.md"
+      ],
+      "acceptance_criteria": [
+        "Q01 and Q03 resolved",
+        "Real response parsed through shared contracts",
+        "Usage and malformed/refused/unavailable response handling recorded",
+        "No credentials in repository or traces"
+      ],
+      "verification_plan": [
+        "Read current official provider interface and select compatible version",
+        "Execute one authorized bounded live request",
+        "Run contract regressions in offline mode"
+      ],
+      "verification_evidence": [],
+      "learning_objective": "Provider integration and real versus simulated evidence",
+      "credentials_required": "Selected provider access; credentials if required",
+      "cost_requirements": "No paid call before actual spending limits are authorized",
+      "milestone": "M2",
+      "optional": false,
+      "blockers": [],
+      "next_action": "Read current official provider interface and select compatible version"
+    }
+  ]
+}

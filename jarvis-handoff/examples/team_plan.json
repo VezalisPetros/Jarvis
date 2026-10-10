@@ -1,0 +1,169 @@
+{
+  "schema_version": 1,
+  "plan_id": "plan_example_only",
+  "plan_version": 1,
+  "workspace_id": "ws_demo_a",
+  "objective": "Analyze the synthetic repeated questions and prepare internal responses.",
+  "source_snapshot": [
+    {
+      "source_id": "src_demo_policy",
+      "version": 1
+    }
+  ],
+  "configurations": [
+    {
+      "schema_version": 1,
+      "agent_id": "agent_analyst_example",
+      "config_version": 1,
+      "role": "Question analyst",
+      "objective": "Assign each input record to one primary category.",
+      "knowledge_refs": [
+        {
+          "source_id": "src_demo_policy",
+          "version": 1
+        }
+      ],
+      "tool_ids": [
+        "artifact.read"
+      ],
+      "output_contract": "question_groups.v1",
+      "limits": {
+        "max_steps": 8,
+        "max_tool_calls": 10,
+        "timeout_seconds": 120,
+        "max_output_tokens": 1200
+      },
+      "escalation": "needs_information",
+      "provenance": {
+        "planning_run_id": "run_example_only",
+        "prompt_version": "illustration-v1",
+        "model_identifier": null,
+        "generated_at": null
+      }
+    },
+    {
+      "schema_version": 1,
+      "agent_id": "agent_drafter_example",
+      "config_version": 1,
+      "role": "Evidence-based report writer",
+      "objective": "Count categories and prepare internal drafts with gaps.",
+      "knowledge_refs": [
+        {
+          "source_id": "src_demo_policy",
+          "version": 1
+        }
+      ],
+      "tool_ids": [
+        "dataset.aggregate",
+        "knowledge.search",
+        "draft.compose",
+        "report.create"
+      ],
+      "output_contract": "analysis_report.v1",
+      "limits": {
+        "max_steps": 8,
+        "max_tool_calls": 10,
+        "timeout_seconds": 120,
+        "max_output_tokens": 1200
+      },
+      "escalation": "needs_information",
+      "provenance": {
+        "planning_run_id": "run_example_only",
+        "prompt_version": "illustration-v1",
+        "model_identifier": null,
+        "generated_at": null
+      }
+    },
+    {
+      "schema_version": 1,
+      "agent_id": "agent_reviewer_example",
+      "config_version": 1,
+      "role": "Evidence reviewer",
+      "objective": "Check coverage and citations without authorizing new actions.",
+      "knowledge_refs": [
+        {
+          "source_id": "src_demo_policy",
+          "version": 1
+        }
+      ],
+      "tool_ids": [
+        "artifact.read",
+        "knowledge.search"
+      ],
+      "output_contract": "review_result.v1",
+      "limits": {
+        "max_steps": 8,
+        "max_tool_calls": 10,
+        "timeout_seconds": 120,
+        "max_output_tokens": 1200
+      },
+      "escalation": "needs_information",
+      "provenance": {
+        "planning_run_id": "run_example_only",
+        "prompt_version": "illustration-v1",
+        "model_identifier": null,
+        "generated_at": null
+      }
+    }
+  ],
+  "steps": [
+    {
+      "step_id": "s1",
+      "agent_ref": {
+        "agent_id": "agent_analyst_example",
+        "config_version": 1
+      },
+      "depends_on": [],
+      "input_bindings": {
+        "dataset_ref": "input.dataset_ref"
+      },
+      "output_contract": "question_groups.v1",
+      "required": true
+    },
+    {
+      "step_id": "s2",
+      "agent_ref": {
+        "agent_id": "agent_drafter_example",
+        "config_version": 1
+      },
+      "depends_on": [
+        "s1"
+      ],
+      "input_bindings": {
+        "dataset_ref": "input.dataset_ref",
+        "grouping_artifact_ref": "steps.s1.artifact_ref"
+      },
+      "output_contract": "analysis_report.v1",
+      "required": true
+    },
+    {
+      "step_id": "s3",
+      "agent_ref": {
+        "agent_id": "agent_reviewer_example",
+        "config_version": 1
+      },
+      "depends_on": [
+        "s2"
+      ],
+      "input_bindings": {
+        "artifact_ref": "steps.s2.artifact_ref"
+      },
+      "output_contract": "review_result.v1",
+      "required": true
+    }
+  ],
+  "deliverable": {
+    "contract": "analysis_report.v1",
+    "producer_step": "s2",
+    "required_review_step": "s3"
+  },
+  "limits": {
+    "max_agents": 3,
+    "max_total_tool_calls": 30,
+    "run_timeout_seconds": 300
+  },
+  "validation": {
+    "status": "not_run",
+    "reason": "Illustrative planning object; executable validator does not exist yet."
+  }
+}

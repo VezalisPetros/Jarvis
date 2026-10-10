@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "approval_id": "approval_example_only",
+  "actor_id": "owner_demo",
+  "workspace_id": "ws_demo_a",
+  "plan_id": "plan_example_only",
+  "plan_version": 2,
+  "action_payload": {
+    "operation": "expand_source_scope",
+    "workspace_id": "ws_demo_a",
+    "plan_id": "plan_example_only",
+    "plan_version": 2,
+    "source_snapshot": [
+      {
+        "source_id": "src_demo_policy",
+        "version": 1
+      },
+      {
+        "source_id": "src_demo_extra",
+        "version": 1
+      }
+    ],
+    "scopes": [
+      "knowledge:read",
+      "draft:write"
+    ],
+    "paid_calls_enabled": false
+  },
+  "payload_hash": "088b99a40f04ac38d67b7dff41302890abe29678c5607ac2afb7a06e933c4fe0",
+  "hash_serialization": "UTF-8 JSON, sorted keys, no whitespace, ensure_ascii=false",
+  "status": "pending",
+  "expires_at": null,
+  "decided_at": null,
+  "budget_ceiling": {
+    "currency": null,
+    "amount": null,
+    "paid_calls_enabled": false
+  },
+  "note": "Synthetic non-executable example; expiry must be set before a real approval can be granted."
+}

@@ -1,0 +1,31 @@
+{
+  "call_id": "call_example_only",
+  "status": "succeeded",
+  "data": {
+    "matches": [
+      {
+        "text": "Check-in starts at 15:00.",
+        "source_ref": {
+          "source_id": "src_demo_policy",
+          "version": 1,
+          "locator": "section:check_in"
+        }
+      }
+    ]
+  },
+  "error": null,
+  "source_refs": [
+    {
+      "source_id": "src_demo_policy",
+      "version": 1,
+      "locator": "section:check_in"
+    }
+  ],
+  "usage": {
+    "duration_ms": null,
+    "input_tokens": null,
+    "output_tokens": null,
+    "cost": null,
+    "measurement_status": "illustrative_not_executed"
+  }
+}
